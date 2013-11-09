@@ -1,4 +1,4 @@
-package org.foi.drawing3D;
+package org.foi.drawing3D.implementations;
 
 import org.foi.drawing3D.api.Drawing3D;
 import java.awt.Graphics;

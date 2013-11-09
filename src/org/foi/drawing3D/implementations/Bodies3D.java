@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.foi.drawing3D;
+package org.foi.drawing3D.implementations;
 
 import org.foi.drawing3D.api.Drawing3D;
 import org.foi.drawing3D.api.Bodies;

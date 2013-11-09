@@ -15,9 +15,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.foi.drawing3D.Bodies3D;
-import org.foi.drawing3D.MT3D;
-import org.foi.drawing3D.Persp;
+import org.foi.drawing3D.implementations.Bodies3D;
+import org.foi.drawing3D.implementations.MT3D;
+import org.foi.drawing3D.implementations.Persp;
 import org.foi.drawing3D.api.MT;
 
 /**
