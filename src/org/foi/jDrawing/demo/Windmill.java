@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.foi.drawing3D.demo;
+package org.foi.jDrawing.demo;
 
-import org.foi.drawing3D.api.Drawing3D;
-import org.foi.drawing3D.api.Bodies;
+import org.foi.jDrawing.api.Drawing;
+import org.foi.jDrawing.api.Bodies;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,16 +15,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.foi.drawing3D.implementations.Bodies3D;
-import org.foi.drawing3D.implementations.MT3D;
-import org.foi.drawing3D.implementations.Persp;
-import org.foi.drawing3D.api.MT;
+import org.foi.jDrawing.implementations.Bodies3D;
+import org.foi.jDrawing.implementations.MT3D;
+import org.foi.jDrawing.implementations.Persp;
+import org.foi.jDrawing.api.MT;
 
 /**
  *
  * @author ipusic
  */
-public class CubeRotation extends Applet implements KeyListener {
+public class Windmill extends Applet implements KeyListener {
 
     int xSize;
     int ySize;
@@ -83,7 +83,7 @@ public class CubeRotation extends Applet implements KeyListener {
                     }
                     repaint();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(CubeRotation.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Windmill.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class CubeRotation extends Applet implements KeyListener {
         Graphics gs = slika.getGraphics();
 
         MT mt = new MT3D();
-        Drawing3D drawing3D = new Persp(gs, xMin, xMax, yMin, yMax, 20, xSize, ySize);
+        Drawing drawing3D = new Persp(gs, xMin, xMax, yMin, yMax, 20, xSize, ySize);
         Bodies bodies = new Bodies3D(drawing3D);
 
         double xK = 15;

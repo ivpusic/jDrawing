@@ -1,11 +1,11 @@
-package org.foi.drawing3D.implementations;
+package org.foi.jDrawing.implementations;
 
-import org.foi.drawing3D.api.Drawing3D;
+import org.foi.jDrawing.api.Drawing;
 import java.awt.Graphics;
 import java.awt.Color;
-import org.foi.drawing3D.api.MT;
+import org.foi.jDrawing.api.MT;
 
-public class Persp implements Drawing3D {
+public class Persp implements Drawing {
 
     public double xmin;
     public double xmax;
@@ -170,5 +170,15 @@ public class Persp implements Drawing3D {
     @Override
     public double getYmax() {
         return ymax;
+    }
+
+    @Override
+    public void setTo(double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void lineTo(double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

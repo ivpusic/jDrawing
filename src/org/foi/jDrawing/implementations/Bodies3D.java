@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.foi.drawing3D.implementations;
+package org.foi.jDrawing.implementations;
 
-import org.foi.drawing3D.api.Drawing3D;
-import org.foi.drawing3D.api.Bodies;
+import org.foi.jDrawing.api.Drawing;
+import org.foi.jDrawing.api.Bodies;
 import java.awt.Color;
 
 /**
@@ -15,9 +15,9 @@ import java.awt.Color;
  */
 public class Bodies3D implements Bodies {
 
-    private final Drawing3D drawing3D;
+    private final Drawing drawing3D;
 
-    public Bodies3D(Drawing3D drawing3D) {
+    public Bodies3D(Drawing drawing3D) {
         this.drawing3D = drawing3D;
     }
 
@@ -178,5 +178,20 @@ public class Bodies3D implements Bodies {
                 drawing3D.lineTo(x, y, z);
             }
         }
+    }
+
+    @Override
+    public void drawCircle(double x, double y, double r) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawRectangle(double x, double y, double width, double height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawElipse(double x, double y, double width, double height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.foi.drawing3D.implementations;
+package org.foi.jDrawing.implementations;
 
-import org.foi.drawing3D.api.MT;
+import org.foi.jDrawing.api.MT;
 
 /**
  *
@@ -120,5 +120,30 @@ public final class MT3D implements MT {
     @Override
     public double[][] getMatrix() {
         return matrix;
+    }
+
+    @Override
+    public void move(double px, double py) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void scale(double sx, double sy) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mirrorX() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mirrorY() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void rotate(double angle) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

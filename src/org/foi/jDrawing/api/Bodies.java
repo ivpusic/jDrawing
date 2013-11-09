@@ -1,4 +1,4 @@
-package org.foi.drawing3D.api;
+package org.foi.jDrawing.api;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +20,12 @@ public interface Bodies {
     public void drawCone(double r, double h, int n);
 
     public void drawCylinder(double r, double h, int n);
+
+    public void drawCircle(double x, double y, double r);
+    
+    public void drawRectangle(double x, double y, double width, double height);
+    
+    public void drawElipse(double x, double y, double width, double height);
 
     public void drawSphere(double r, int m, int n, boolean half);
 }
