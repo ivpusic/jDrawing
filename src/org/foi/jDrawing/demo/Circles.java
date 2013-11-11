@@ -28,7 +28,7 @@ public class Circles extends Applet {
     private Drawing gks;
     private Bodies bodies;
     public double cardioidLimit;
-    public double x_c, y_c, phi = 0;
+    public double phi = 0;
 
     class Animation extends Thread {
 
@@ -84,7 +84,7 @@ public class Circles extends Applet {
         bodies.drawCardioid(0, 0, 1.5, cardioidLimit);
 
         gks.setColor(Color.BLUE);
-        MT2D mt = new MT2D();
+        MT mt = new MT2D();
         mt.rotate(Math.toDegrees(cardioidLimit));
         mt.move(3, 0);
         gks.trans(mt);
