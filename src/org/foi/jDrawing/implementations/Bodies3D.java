@@ -194,4 +194,9 @@ public class Bodies3D implements Bodies {
     public void drawElipse(double x, double y, double width, double height) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void drawCardioid(double x, double y, double r, double cardioidLimit) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

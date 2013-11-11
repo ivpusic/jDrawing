@@ -6,8 +6,11 @@
 package org.foi.jDrawing.implementations;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.foi.jDrawing.api.Bodies;
 import org.foi.jDrawing.api.Drawing;
+import org.foi.jDrawing.api.MT;
 
 /**
  *
@@ -16,16 +19,17 @@ import org.foi.jDrawing.api.Drawing;
 public class Bodies2D implements Bodies {
 
     private final Drawing drawing;
-    
+
     public Bodies2D(Drawing drawing) {
         this.drawing = drawing;
     }
-    
+
     @Override
     public void drawElipse(double x, double y, double width, double height) {
         double phi, step = 0.01, x_c, y_c;
-        drawing.setColor(Color.red);
+
         drawing.setTo(width * Math.cos(0), height * Math.sin(0));
+
         for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
             x_c = width * Math.cos(phi) + x;
             y_c = height * Math.sin(phi) + y;
@@ -35,7 +39,6 @@ public class Bodies2D implements Bodies {
 
     @Override
     public void drawRectangle(double x, double y, double width, double height) {
-        drawing.setColor(Color.BLACK);
         drawing.setTo(x, y);
         drawing.lineTo(x + width, y);
         drawing.lineTo(x + width, y + height);
@@ -86,5 +89,23 @@ public class Bodies2D implements Bodies {
     @Override
     public void drawSphere(double r, int m, int n, boolean half) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawCardioid(double x, double y, double r, double cardioidLimit) {
+
+        drawing.setTo(r, 0);
+        drawing.setColor(Color.RED);
+        double phi, step = 0.01, x_c = 0, y_c = 0;
+        for (phi = 0; phi <= cardioidLimit; phi += step) {
+            x_c = r * (2 * Math.cos(phi) - Math.cos(2 * phi));
+            y_c = r * (2 * Math.sin(phi) - Math.sin(2 * phi));
+            drawing.lineTo(x_c, y_c);
+        }
+
+        MT mt = new MT2D();
+        mt.move(x_c, y_c);
+        drawing.trans(mt);
+        drawCircle(0, 0, 0.1);
     }
 }

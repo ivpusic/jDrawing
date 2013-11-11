@@ -23,6 +23,8 @@ public interface Bodies {
 
     public void drawCircle(double x, double y, double r);
     
+    public void drawCardioid(double x, double y, double r, double cardioidLimit);
+    
     public void drawRectangle(double x, double y, double width, double height);
     
     public void drawElipse(double x, double y, double width, double height);

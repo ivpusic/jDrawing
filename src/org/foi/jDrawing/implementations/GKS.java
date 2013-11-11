@@ -27,7 +27,7 @@ public class GKS implements Drawing {
 
     private Graphics g;
     private double matrix[][];
-    private MT2D mt2d;
+    private MT mt2d;
 
     public GKS(Graphics g, double xmin, double xmax, double ymin, double ymax, int xsize, int ysize) {
         this.xmin = xmin;
