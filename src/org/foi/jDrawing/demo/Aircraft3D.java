@@ -24,14 +24,13 @@ import org.foi.jDrawing.api.MT;
  *
  * @author ipusic
  */
-public class Windmill_2 extends Applet implements KeyListener {
+public class Aircraft3D extends Applet implements KeyListener {
 
     int xSize;
     int ySize;
     double degree = 0;
     double rotation = 0;
-    double xK = 20;
-    double zK = 0;
+    double zK = 6;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -44,7 +43,6 @@ public class Windmill_2 extends Applet implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        System.out.println(key);
         if (key == 37) {
             degree += 0.2;
             repaint();
@@ -76,16 +74,15 @@ public class Windmill_2 extends Applet implements KeyListener {
             while (counter++ < end) {
                 try {
                     sleep(pause);
-                    rotation += 5;
-                    if (xK >= 0) {
-                        degree += 0.01;
-                        zK += 0.09;
-                        xK -= 0.1;
+                    rotation += 25;
+                    if (degree < 150) {
+                        degree += 1;
+                    } else {
+                        degree = 0;
                     }
-
                     repaint();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Windmill_2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Aircraft3D.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -108,53 +105,61 @@ public class Windmill_2 extends Applet implements KeyListener {
         double yMin = -20.0;
         double yMax = 20.0;
 
-        Image picture = createImage(xSize, ySize);
-        Graphics gs = picture.getGraphics();
+        Image slika = createImage(xSize, ySize);
+        Graphics gs = slika.getGraphics();
 
         MT mt = new MT3D();
         Drawing drawing3D = new Persp(gs, xMin, xMax, yMin, yMax, 20, xSize, ySize);
         Bodies bodies = new Bodies3D(drawing3D);
-        drawing3D.KSK(xK, 0, zK, 0, 0, 0, 0, degree, 1 - degree);
 
-        bodies.drawCoordinateSystem();
+        drawing3D.KSK(-6, -100 + degree, -5, 0, 0, 0, 0, 0, 1);
 
-        drawing3D.setColor(Color.GREEN);
-        bodies.drawTruncatedCone(5, 3, 1, 50);
+        mt.rotateX(-90);
+        drawing3D.trans(mt);
+        drawing3D.setColor(Color.green);
+//        bodies.drawCoordinateSystem();
 
         drawing3D.setColor(Color.BLACK);
-        mt.move(0, 0, 1);
+        bodies.drawObliqueCone(0.8, 0, 1, 5, 40);
+
+        mt.rotateX(180);
         drawing3D.trans(mt);
-        bodies.drawCylinder(3, 5, 40);
+        bodies.drawObliqueCone(0.8, 0, -0.2, 2, 40);
+
+        drawing3D.setColor(Color.BLUE);
+        mt.move(-2, 0.8, -0.5);
+        mt.rotateX(90);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(0, 0, 0, 4, 1);
+
+        drawing3D.setColor(Color.BLACK);
+        mt.identity();
+        mt.move(1, -0.5, 0.7);
+        mt.rotateX(-90);
+        drawing3D.trans(mt);
+        bodies.drawCone(0.2, 1, 30);
+
+        mt.move(-2, 0, 0);
+        drawing3D.trans(mt);
+        bodies.drawCone(0.2, 1, 30);
+        drawing3D.setColor(Color.BLACK);
 
         drawing3D.setColor(Color.RED);
-        mt.move(0, 0, 5);
+        mt.move(1, 1, 0);
         drawing3D.trans(mt);
-        bodies.drawCone(3, 2, 40);
+        bodies.drawFan(1, 0.8, 0.5, 0.1, 0.5, rotation);
+        bodies.drawFan(-1, 0.8, 0.5, 0.1, 0.5, rotation);
 
-        double rectHeight = 3;
-        double rectWidth = 0.5;
         drawing3D.setColor(Color.BLUE);
-
         mt.identity();
-        mt.move(3, 0, 4);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(-1, 3.5, -0.5, 2, 0.5);
+
         mt.rotateY(90);
-        mt.rotateZ(rotation);
+        mt.rotateX(90);
         drawing3D.trans(mt);
-        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
-
-        mt.rotateZ(180);
-        drawing3D.trans(mt);
-        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
-
-        mt.rotateZ(90);
-        drawing3D.trans(mt);
-        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
-
-        mt.rotateZ(180);
-        drawing3D.trans(mt);
-        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
-
-        g.drawImage(picture, 0, 0, null);
+        bodies.drawRectangle(0, -0.25, -3.5, 0.5, 0.5);
+        g.drawImage(slika, 0, 0, null);
     }
 
     @Override

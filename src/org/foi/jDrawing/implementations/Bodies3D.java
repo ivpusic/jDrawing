@@ -8,6 +8,7 @@ package org.foi.jDrawing.implementations;
 import org.foi.jDrawing.api.Drawing;
 import org.foi.jDrawing.api.Bodies;
 import java.awt.Color;
+import org.foi.jDrawing.api.MT;
 
 /**
  *
@@ -112,6 +113,11 @@ public class Bodies3D implements Bodies {
 
     @Override
     public void drawCone(double r, double h, int n) {
+        drawObliqueCone(r, 0, 0, h, n);
+    }
+
+    @Override
+    public void drawObliqueCone(double r, double topX, double topY, double h, double n) {
         double phi;
         double step = (2.0 * Math.PI) / n;
         double x;
@@ -122,32 +128,34 @@ public class Bodies3D implements Bodies {
             x = r * Math.cos(phi);
             y = r * Math.sin(phi);
             drawing3D.lineTo(x, y, 0);
-            drawing3D.lineTo(0, 0, h);
+            drawing3D.lineTo(topX, topY, h);
             drawing3D.setTo(x, y, 0);
         }
     }
 
     @Override
-    public void drawCylinder(double r, double h, int n) {
+    public void drawTruncatedCone(double r1, double r2, double h, double n) {
         double phi;
         double step = (2.0 * Math.PI) / n;
-        double x;
-        double y;
+        double x, x1;
+        double y, y1;
 
-        drawing3D.setTo(r * Math.cos(0), r * Math.sin(0), 0);
+        drawing3D.setTo(r1 * Math.cos(0), r1 * Math.sin(0), 0);
         for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
-            x = r * Math.cos(phi);
-            y = r * Math.sin(phi);
+            x = r1 * Math.cos(phi);
+            y = r1 * Math.sin(phi);
+
+            x1 = r2 * Math.cos(phi);
+            y1 = r2 * Math.sin(phi);
             drawing3D.lineTo(x, y, 0);
-            drawing3D.setTo(x, y, h);
-            drawing3D.lineTo(x, y, h);
+            drawing3D.setTo(x1, y1, h);
             drawing3D.lineTo(x, y, 0);
         }
 
-        drawing3D.setTo(r * Math.cos(0), r * Math.sin(0), h);
+        drawing3D.setTo(r2 * Math.cos(0), r2 * Math.sin(0), h);
         for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
-            x = r * Math.cos(phi);
-            y = r * Math.sin(phi);
+            x = r2 * Math.cos(phi);
+            y = r2 * Math.sin(phi);
             drawing3D.lineTo(x, y, h);
         }
     }
@@ -189,28 +197,31 @@ public class Bodies3D implements Bodies {
     }
 
     @Override
-    public void drawCircle(double x, double y, double r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void drawElipse(double x, double y, double width, double height) {
+        double phi, step = 0.01, x_c, y_c;
+
+        //drawing.setTo(width * Math.cos(0), height * Math.sin(0));
+        drawing3D.setTo(x + width, y, 0);
+
+        for (phi = 0; phi <= 2 * Math.PI; phi += step) {
+            x_c = width * Math.cos(phi) + x;
+            y_c = height * Math.sin(phi) + y;
+            drawing3D.lineTo(x_c, y_c, 0);
+        }
     }
 
     @Override
     public void drawRectangle(double x, double y, double z, double width, double height) {
-        for (double i = x; i < width; i += width / 10) {
+        for (double i = x; i < x + width; i += width / 10) {
             drawing3D.setTo(i, y, z);
             drawing3D.lineTo(i, y + height, z);
             drawing3D.lineTo(i, y, z);
         }
-        for (double i = y; i < height; i += height / 5) {
+        for (double i = y; i < y + height; i += height / 5) {
             drawing3D.setTo(x, i, z);
             drawing3D.lineTo(x + width, i, z);
             drawing3D.lineTo(x, i, z);
         }
-
-    }
-
-    @Override
-    public void drawElipse(double x, double y, double width, double height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -230,30 +241,52 @@ public class Bodies3D implements Bodies {
     }
 
     @Override
-    public void drawTruncatedCone(double r1, double r2, double h, double n) {
-        double phi;
-        double step = (2.0 * Math.PI) / n;
-        double x, x1;
-        double y, y1;
+    public void drawHalfElipse(double x, double y, double width, double height) {
+        double phi, step = 0.01, x_c, y_c;
+        drawing3D.setTo(x, y + height, 0);
 
-        drawing3D.setTo(r1 * Math.cos(0), r1 * Math.sin(0), 0);
-        for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
-            x = r1 * Math.cos(phi);
-            y = r1 * Math.sin(phi);
-
-            x1 = r2 * Math.cos(phi);
-            y1 = r2 * Math.sin(phi);
-            drawing3D.lineTo(x, y, 0);
-            drawing3D.setTo(x1, y1, h);
-            drawing3D.lineTo(x, y, 0);
+        for (phi = Math.PI / 2; phi <= 3 * (Math.PI / 2); phi += step) {
+            x_c = width * Math.cos(phi) + x;
+            y_c = height * Math.sin(phi) + y;
+            drawing3D.lineTo(x_c, y_c, 0);
         }
+    }
 
-        drawing3D.setTo(r2 * Math.cos(0), r2 * Math.sin(0), h);
-        for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
-            x = r2 * Math.cos(phi);
-            y = r2 * Math.sin(phi);
-            drawing3D.lineTo(x, y, h);
+    @Override
+    public void drawFan(double x, double y, double z, double rSmall, double width, double rotation) {
+        MT mt = new MT3D();
+        mt.rotateX(90);
+        mt.move(x, y, z);
+        drawing3D.trans(mt);
+        drawElipse(0, 0, rSmall, rSmall);
+        for (int i = 1; i <= 3; i++) {
+            mt.identity();
+            mt.rotateX(90);
+            mt.move(x, y, z);
+            mt.rotateZ(rotation + (120 * i));
+            drawing3D.trans(mt);
+            drawHalfElipse(0, 0, width, rSmall);
         }
+    }
+
+    @Override
+    public void drawHalfCicleAircraftWindow(double x, double y, double r) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawCircle(double x, double y, double r) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawFan(double x, double y, double rSmall, double width, double rotation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawCylinder(double r, double h, int n) {
+        drawTruncatedCone(r, r, h, n);
     }
 
     @Override

@@ -26,9 +26,21 @@ public class Bodies2D implements Bodies {
     public void drawElipse(double x, double y, double width, double height) {
         double phi, step = 0.01, x_c, y_c;
 
-        drawing.setTo(width * Math.cos(0), height * Math.sin(0));
+        drawing.setTo(x + width, y);
 
-        for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
+        for (phi = 0; phi <= 2 * Math.PI; phi += step) {
+            x_c = width * Math.cos(phi) + x;
+            y_c = height * Math.sin(phi) + y;
+            drawing.lineTo(x_c, y_c);
+        }
+    }
+
+    @Override
+    public void drawHalfElipse(double x, double y, double width, double height) {
+        double phi, step = 0.01, x_c, y_c;
+        drawing.setTo(x, y + height);
+
+        for (phi = Math.PI / 2; phi <= 3 * (Math.PI / 2); phi += step) {
             x_c = width * Math.cos(phi) + x;
             y_c = height * Math.sin(phi) + y;
             drawing.lineTo(x_c, y_c);
@@ -118,6 +130,45 @@ public class Bodies2D implements Bodies {
 
     @Override
     public void drawRectangle(double x, double y, double z, double width, double height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawFan(double x, double y, double rSmall, double width, double rotation) {
+        MT mt = new MT2D();
+        mt.move(x, y);
+        drawing.trans(mt);
+        drawCircle(0, 0, rSmall);
+        for (int i = 1; i <= 3; i++) {
+            mt.identity();
+            mt.move(x, y);
+            mt.rotate(rotation + (120 * i));
+            drawing.trans(mt);
+            drawHalfElipse(0, 0, width, rSmall);
+        }
+    }
+
+    @Override
+    public void drawHalfCicleAircraftWindow(double x, double y, double r) {
+        double phi, step = 0.5, x_c, y_c;
+        drawing.setTo(x, y);
+
+        for (phi = 0 + (Math.PI / 10); phi < Math.PI - (Math.PI / 10); phi += step) {
+            x_c = r * Math.cos(phi) + x;
+            y_c = r * Math.sin(phi) + y;
+            drawing.lineTo(x_c, y_c);
+            drawing.lineTo(x, y);
+            drawing.setTo(x_c, y_c);
+        }
+    }
+
+    @Override
+    public void drawObliqueCone(double r, double topX, double topY, double h, double n) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawFan(double x, double y, double z, double rSmall, double width, double rotation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

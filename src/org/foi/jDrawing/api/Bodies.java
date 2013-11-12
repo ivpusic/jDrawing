@@ -19,6 +19,8 @@ public interface Bodies {
 
     public void drawCone(double r, double h, int n);
 
+    public void drawObliqueCone(double r, double topX, double topY, double h, double n);
+
     public void drawTruncatedCone(double r1, double r2, double h, double n);
 
     public void drawCylinder(double r, double h, int n);
@@ -33,7 +35,15 @@ public interface Bodies {
 
     public void drawElipse(double x, double y, double width, double height);
 
+    public void drawHalfElipse(double x, double y, double width, double height);
+
     public void drawSphere(double r, int m, int n, boolean half);
 
     public void draw3DFlatGround(double size);
+
+    public void drawFan(double x, double y, double rSmall, double width, double rotation);
+
+    public void drawFan(double x, double y, double z, double rSmall, double width, double rotation);
+
+    public void drawHalfCicleAircraftWindow(double x, double y, double r);
 }
