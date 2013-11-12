@@ -157,6 +157,8 @@ public class Bodies3D implements Bodies {
             x = r2 * Math.cos(phi);
             y = r2 * Math.sin(phi);
             drawing3D.lineTo(x, y, h);
+            drawing3D.lineTo(0, 0, h);
+            drawing3D.setTo(x, y, h);
         }
     }
 
@@ -292,5 +294,58 @@ public class Bodies3D implements Bodies {
     @Override
     public void drawRectangle(double x, double y, double width, double height) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawEllipsoid(double w, double h, int m, int n) {
+        double phi;
+        double step = 0.1;
+        double x;
+        double y;
+        double z;
+        double Rho;
+        double boundMultiplier = 2;
+//        if (half) {
+//            boundMultiplier = 1;
+//        }
+
+        // pararels
+        for (double Theta = 0; Theta <= Math.PI; Theta += Math.PI / n) {
+            z = h * Math.cos(Theta);
+            Rho = w * Math.sin(Theta);
+            drawing3D.setTo(Rho * Math.cos(0), Rho * Math.sin(0), z);
+            for (phi = 0; phi <= boundMultiplier * Math.PI + step; phi += step) {
+                x = Rho * Math.cos(phi);
+                y = Rho * Math.sin(phi);
+                drawing3D.lineTo(x, y, z);
+            }
+        }
+        
+        // meridians
+        for (phi = 0; phi <= Math.PI; phi += Math.PI / m) {
+
+            drawing3D.setTo(0, 0, h);
+            for (double Theta = 0; Theta <= boundMultiplier * Math.PI + step; Theta
+                    += step) {
+                x = w * Math.sin(Theta) * Math.cos(phi);
+                y = w * Math.sin(Theta) * Math.sin(phi);
+                z = h * Math.cos(Theta);
+                drawing3D.lineTo(x, y, z);
+            }
+        }
+    }
+
+    @Override
+    public void drawHelix(double w, double h, int cicles) {
+        double x;
+        double y;
+        double z;
+        drawing3D.setTo(0, 0, 0);
+        for (double i = 0; i <= 2 * h * cicles; i += 0.01) {
+            x = w * Math.cos(i);
+            y = w * Math.sin(i);
+            z = i / cicles;
+            drawing3D.lineTo(x, y, z);
+        }
     }
 }

@@ -171,4 +171,14 @@ public class Bodies2D implements Bodies {
     public void drawFan(double x, double y, double z, double rSmall, double width, double rotation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void drawEllipsoid(double w, double h, int m, int n) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawHelix(double w, double h, int cicles) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

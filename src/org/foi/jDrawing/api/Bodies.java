@@ -39,6 +39,8 @@ public interface Bodies {
 
     public void drawSphere(double r, int m, int n, boolean half);
 
+    public void drawEllipsoid(double w, double h, int m, int n);
+    
     public void draw3DFlatGround(double size);
 
     public void drawFan(double x, double y, double rSmall, double width, double rotation);
@@ -46,4 +48,6 @@ public interface Bodies {
     public void drawFan(double x, double y, double z, double rSmall, double width, double rotation);
 
     public void drawHalfCicleAircraftWindow(double x, double y, double r);
+    
+    public void drawHelix(double w, double h, int cicles);
 }
