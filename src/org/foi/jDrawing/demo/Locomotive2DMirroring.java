@@ -4,6 +4,7 @@ import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
 import org.foi.jDrawing.api.Bodies;
+import org.foi.jDrawing.api.Drawing;
 import org.foi.jDrawing.api.MT;
 import org.foi.jDrawing.implementations.Bodies2D;
 import org.foi.jDrawing.implementations.GKS;
@@ -15,7 +16,7 @@ import org.foi.jDrawing.implementations.MT2D;
  */
 public final class Locomotive2DMirroring extends Applet {
 
-    private GKS gks;
+    private Drawing gks;
     private MT mt;
     private Bodies bodies;
 
