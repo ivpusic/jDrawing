@@ -94,12 +94,20 @@ public class Bodies3D implements Bodies {
         drawing3D.setColor(Color.BLACK);
 
         // drawing X
-        drawing3D.setTo(drawing3D.getXmin(), (drawing3D.getYmin() + drawing3D.getYmax()) / 2, 1);
-        drawing3D.lineTo(drawing3D.getXmax(), (drawing3D.getYmin() + drawing3D.getYmax()) / 2, 1);
+        System.out.println((drawing3D.getXmin() + drawing3D.getXmax()) / 2);
+        drawing3D.setColor(Color.RED);
+        drawing3D.setTo(drawing3D.getXmin() / 2, 0, 0);
+        drawing3D.lineTo(drawing3D.getXmax() / 2, 0, 0);
 
         // drawing Y
-        drawing3D.setTo((drawing3D.getXmin() + drawing3D.getXmax()) / 2, drawing3D.getYmin(), 1);
-        drawing3D.lineTo((drawing3D.getXmin() + drawing3D.getXmax()) / 2, drawing3D.getYmax(), 1);
+        drawing3D.setColor(Color.GREEN);
+        drawing3D.setTo(0, drawing3D.getYmin() / 2, 0);
+        drawing3D.lineTo(0, drawing3D.getYmax() / 2, 0);
+
+        // drawing Z
+        drawing3D.setColor(Color.BLUE);
+        drawing3D.setTo(0, 0, drawing3D.getYmin() / 2);
+        drawing3D.lineTo(0, 0, drawing3D.getYmax() / 2);
     }
 
     @Override
@@ -186,8 +194,18 @@ public class Bodies3D implements Bodies {
     }
 
     @Override
-    public void drawRectangle(double x, double y, double width, double height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void drawRectangle(double x, double y, double z, double width, double height) {
+        for (double i = x; i < width; i += width / 10) {
+            drawing3D.setTo(i, y, z);
+            drawing3D.lineTo(i, y + height, z);
+            drawing3D.lineTo(i, y, z);
+        }
+        for (double i = y; i < height; i += height / 5) {
+            drawing3D.setTo(x, i, z);
+            drawing3D.lineTo(x + width, i, z);
+            drawing3D.lineTo(x, i, z);
+        }
+
     }
 
     @Override
@@ -197,6 +215,49 @@ public class Bodies3D implements Bodies {
 
     @Override
     public void drawCardioid(double x, double y, double r, double cardioidLimit) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void draw3DFlatGround(double size) {
+        for (double i = -size / 2; i <= size / 2; i = i + 0.5) {
+            drawing3D.setTo(size / 2, i, 0);
+            drawing3D.lineTo(-size / 2, i, 0);
+
+            drawing3D.setTo(i, size / 2, 0);
+            drawing3D.lineTo(i, -size / 2, 0);
+        }
+    }
+
+    @Override
+    public void drawTruncatedCone(double r1, double r2, double h, double n) {
+        double phi;
+        double step = (2.0 * Math.PI) / n;
+        double x, x1;
+        double y, y1;
+
+        drawing3D.setTo(r1 * Math.cos(0), r1 * Math.sin(0), 0);
+        for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
+            x = r1 * Math.cos(phi);
+            y = r1 * Math.sin(phi);
+
+            x1 = r2 * Math.cos(phi);
+            y1 = r2 * Math.sin(phi);
+            drawing3D.lineTo(x, y, 0);
+            drawing3D.setTo(x1, y1, h);
+            drawing3D.lineTo(x, y, 0);
+        }
+
+        drawing3D.setTo(r2 * Math.cos(0), r2 * Math.sin(0), h);
+        for (phi = 0; phi <= 2.0 * Math.PI + step; phi += step) {
+            x = r2 * Math.cos(phi);
+            y = r2 * Math.sin(phi);
+            drawing3D.lineTo(x, y, h);
+        }
+    }
+
+    @Override
+    public void drawRectangle(double x, double y, double width, double height) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

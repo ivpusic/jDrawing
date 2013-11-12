@@ -24,13 +24,14 @@ import org.foi.jDrawing.api.MT;
  *
  * @author ipusic
  */
-public class Windmill extends Applet implements KeyListener {
+public class Windmill_2 extends Applet implements KeyListener {
 
     int xSize;
     int ySize;
     double degree = 0;
     double rotation = 0;
-    double zK = 6;
+    double xK = 20;
+    double zK = 0;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -76,11 +77,15 @@ public class Windmill extends Applet implements KeyListener {
                 try {
                     sleep(pause);
                     rotation += 5;
-                    if (degree > Math.PI * 2) {
+                    if (xK >= 0) {
+                        degree += 0.01;
+                        zK += 0.09;
+                        xK -= 0.1;
                     }
+
                     repaint();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Windmill.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Windmill_2.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -89,7 +94,7 @@ public class Windmill extends Applet implements KeyListener {
     @Override
     public void init() {
         this.addKeyListener(this);
-        setBackground(Color.yellow);
+        setBackground(Color.WHITE);
         (new Animation(30.0, 30.0)).start();
     }
 
@@ -103,56 +108,53 @@ public class Windmill extends Applet implements KeyListener {
         double yMin = -20.0;
         double yMax = 20.0;
 
-        Image slika = createImage(xSize, ySize);
-        Graphics gs = slika.getGraphics();
+        Image picture = createImage(xSize, ySize);
+        Graphics gs = picture.getGraphics();
 
         MT mt = new MT3D();
         Drawing drawing3D = new Persp(gs, xMin, xMax, yMin, yMax, 20, xSize, ySize);
         Bodies bodies = new Bodies3D(drawing3D);
+        drawing3D.KSK(xK, 0, zK, 0, 0, 0, 0, degree, 1);
 
-        double xK = 15;
-        double yK = 15;
+        //bodies.drawCoordinateSystem();
 
-        drawing3D.KSK(xK * Math.cos(degree), yK * Math.sin(degree), zK, 0, 0, 0, 0, 0, 5);
-
-        drawing3D.setColor(Color.green);
-        for (double i = -10; i <= 10; i = i + 0.5) {
-            drawing3D.setTo(10, i, 0);
-            drawing3D.lineTo(-10, i, 0);
-
-            drawing3D.setTo(i, 10, 0);
-            drawing3D.lineTo(i, -10, 0);
-        }
+        drawing3D.setColor(Color.GREEN);
+        bodies.drawTruncatedCone(5, 3, 1, 50);
 
         drawing3D.setColor(Color.BLACK);
-
-        bodies.drawCone(2, 5, 20);
-        mt.move(0, 0, 3.5);
-        mt.rotateZ(-rotation);
+        mt.move(0, 0, 1);
         drawing3D.trans(mt);
-        bodies.drawCylinder(0.5, 1.5, 10);
+        bodies.drawCylinder(3, 5, 40);
+
+        drawing3D.setColor(Color.RED);
+        mt.move(0, 0, 5);
+        drawing3D.trans(mt);
+        bodies.drawCone(3, 2, 40);
+
+        double rectHeight = 3;
+        double rectWidth = 0.5;
+        drawing3D.setColor(Color.BLUE);
 
         mt.identity();
-        mt.move(0, 0, 4.5);
-        mt.rotateX(-90);
+        mt.move(3, 0, 4);
+        mt.rotateY(90);
+        mt.rotateZ(rotation);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
 
-        for (int i = 1; i <= 3; i++) {
-            drawing3D.setColor(Color.red);
-            mt.rotateY(((120 * i) + rotation));
-            if (i > 1) {
-                mt.rotateY(-((120 * (i - 1)) + rotation));
-            }
-            drawing3D.trans(mt);
-            bodies.drawCylinder(0.2, 3, 5);
-            mt.move(0, 0, 4);
-            mt.rotateZ(-90);
-            drawing3D.trans(mt);
-            bodies.drawSphere(1, 5, 10, true);
-            mt.move(0, 0, -4);
-            mt.rotateZ(90);
-            drawing3D.trans(mt);
-        }
-        g.drawImage(slika, 0, 0, null);
+        mt.rotateZ(180);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
+
+        mt.rotateZ(90);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
+
+        mt.rotateZ(180);
+        drawing3D.trans(mt);
+        bodies.drawRectangle(0, 0, 0, rectHeight, rectWidth);
+
+        g.drawImage(picture, 0, 0, null);
     }
 
     @Override

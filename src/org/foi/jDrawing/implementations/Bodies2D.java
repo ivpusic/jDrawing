@@ -6,8 +6,6 @@
 package org.foi.jDrawing.implementations;
 
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.foi.jDrawing.api.Bodies;
 import org.foi.jDrawing.api.Drawing;
 import org.foi.jDrawing.api.MT;
@@ -44,7 +42,6 @@ public class Bodies2D implements Bodies {
         drawing.lineTo(x + width, y + height);
         drawing.lineTo(x, y + height);
         drawing.lineTo(x, y);
-
     }
 
     @Override
@@ -107,5 +104,20 @@ public class Bodies2D implements Bodies {
         mt.move(x_c, y_c);
         drawing.trans(mt);
         drawCircle(0, 0, 0.1);
+    }
+
+    @Override
+    public void draw3DFlatGround(double size) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawTruncatedCone(double r1, double r2, double h, double n) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawRectangle(double x, double y, double z, double width, double height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
