@@ -56,37 +56,7 @@ public class Bodies3D implements Bodies {
 
     @Override
     public void drawCube(double x) {
-
-        double xmin = -(x / 2);
-        double xmax = x / 2;
-        double i;
-
-        // left : right
-        for (i = xmin; i <= xmax; i += x) {
-            drawing3D.setTo(i, xmin, xmin);
-            drawing3D.lineTo(i, xmin, xmax);
-            drawing3D.lineTo(i, xmax, xmax);
-            drawing3D.lineTo(i, xmax, xmin);
-            drawing3D.lineTo(i, xmin, xmin);
-        }
-
-        // botton : top
-        for (i = xmin; i <= xmax; i += x) {
-            drawing3D.setTo(xmin, i, xmin);
-            drawing3D.lineTo(xmin, i, xmax);
-            drawing3D.lineTo(xmax, i, xmax);
-            drawing3D.lineTo(xmax, i, xmin);
-            drawing3D.lineTo(xmin, i, xmin);
-        }
-
-        // front : rear
-        for (i = xmin; i <= xmax; i += x) {
-            drawing3D.setTo(xmin, xmin, i);
-            drawing3D.lineTo(xmin, xmax, i);
-            drawing3D.lineTo(xmax, xmax, i);
-            drawing3D.lineTo(xmax, xmin, i);
-            drawing3D.lineTo(xmin, xmin, i);
-        }
+        drawRectangle(x, x, x);
     }
 
     @Override
@@ -95,7 +65,6 @@ public class Bodies3D implements Bodies {
         drawing3D.setColor(Color.BLACK);
 
         // drawing X
-        System.out.println((drawing3D.getXmin() + drawing3D.getXmax()) / 2);
         drawing3D.setColor(Color.RED);
         drawing3D.setTo(drawing3D.getXmin() / 2, 0, 0);
         drawing3D.lineTo(drawing3D.getXmax() / 2, 0, 0);
@@ -213,7 +182,7 @@ public class Bodies3D implements Bodies {
     }
 
     @Override
-    public void drawRectangle(double x, double y, double z, double width, double height) {
+    public void drawRectangleWithGrid(double x, double y, double z, double width, double height) {
         for (double i = x; i < x + width; i += width / 10) {
             drawing3D.setTo(i, y, z);
             drawing3D.lineTo(i, y + height, z);
@@ -277,8 +246,16 @@ public class Bodies3D implements Bodies {
     }
 
     @Override
-    public void drawCircle(double x, double y, double r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void drawCircle(double x, double y, double z, double r) {
+        double phi, step = 0.01, x_c, y_c;
+
+        drawing3D.setTo(x + r, y, z);
+
+        for (phi = 0; phi <= 2 * Math.PI; phi += step) {
+            x_c = r * Math.cos(phi) + x;
+            y_c = r * Math.sin(phi) + y;
+            drawing3D.lineTo(x_c, y_c, z);
+        }
     }
 
     @Override
@@ -305,9 +282,6 @@ public class Bodies3D implements Bodies {
         double z;
         double Rho;
         double boundMultiplier = 2;
-//        if (half) {
-//            boundMultiplier = 1;
-//        }
 
         // pararels
         for (double Theta = 0; Theta <= Math.PI; Theta += Math.PI / n) {
@@ -320,7 +294,7 @@ public class Bodies3D implements Bodies {
                 drawing3D.lineTo(x, y, z);
             }
         }
-        
+
         // meridians
         for (phi = 0; phi <= Math.PI; phi += Math.PI / m) {
 
@@ -347,5 +321,75 @@ public class Bodies3D implements Bodies {
             z = i / cicles;
             drawing3D.lineTo(x, y, z);
         }
+    }
+
+    @Override
+    public void drawRectangle(double width, double height, double thickness) {
+        double xmin = -(width / 2);
+        double xmax = width / 2;
+
+        double ymin = -(height / 2);
+        double ymax = height / 2;
+
+        double zmin = -(thickness / 2);
+        double zmax = thickness / 2;
+
+        double i;
+
+        // front : rear
+        for (i = zmin; i <= zmax; i += thickness) {
+            drawing3D.setTo(xmin, ymin, i);
+            drawing3D.lineTo(xmax, ymin, i);
+            drawing3D.lineTo(xmax, ymax, i);
+            drawing3D.lineTo(xmin, ymax, i);
+            drawing3D.lineTo(xmin, ymin, i);
+        }
+
+        // left : right
+        for (i = xmin; i <= xmax; i += width) {
+            drawing3D.setTo(i, ymin, zmin);
+            drawing3D.lineTo(i, ymax, zmin);
+            drawing3D.lineTo(i, ymax, zmax);
+            drawing3D.lineTo(i, ymin, zmax);
+            drawing3D.lineTo(i, ymin, zmin);
+        }
+    }
+
+    @Override
+    public void drawWheel(double x, double y, double z, double r, double space, double n, double rotation) {
+
+        MT mt = new MT3D();
+        mt.move(rotation / 50, 0, 0);
+        mt.move(x, y, z);
+        mt.rotateX(90);
+        drawing3D.trans(mt);
+        drawCircle(0, 0, 0, r);
+        drawCircle(0, 0, space, r);
+
+        for (double i = rotation; i < 2 * Math.PI + rotation; i += Math.PI / n) {
+            mt.identity();
+            mt.move(rotation / 50, 0, 0);
+            mt.move(x, y, z);
+            mt.rotateX(90);
+            mt.rotateZ(Math.toDegrees(i));
+            mt.rotateX(90);
+            mt.move(-r, 0, 0);
+            drawing3D.trans(mt);
+            drawRectangle(0, 0, 0, r, space);
+        }
+    }
+
+    @Override
+    public void drawCircle(double x, double y, double r) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawRectangle(double x, double y, double z, double width, double height) {
+        drawing3D.setTo(x, y, z);
+        drawing3D.lineTo(x + width, y, z);
+        drawing3D.lineTo(x + width, y + height, z);
+        drawing3D.lineTo(x, y + height, z);
+        drawing3D.lineTo(x, y, z);
     }
 }
