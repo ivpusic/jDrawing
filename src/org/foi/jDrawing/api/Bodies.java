@@ -1,5 +1,7 @@
 package org.foi.jDrawing.api;
 
+import org.foi.jDrawing.implementations.GKS;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -58,4 +60,12 @@ public interface Bodies {
     public void drawWheel(double x, double y, double z, double r, double space, double n, double rotation);
 
     public void drawCircle(double x, double y, double z, double r);
+
+    public void wheelSecond(double r, double h, int n);
+
+    public void archimedesSpiral(double n, double w);
+    
+    public void drawTriangle(double a);
+    
+    public void drawRightTriangle(double a, double b);
 }

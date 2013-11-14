@@ -392,4 +392,77 @@ public class Bodies3D implements Bodies {
         drawing3D.lineTo(x, y + height, z);
         drawing3D.lineTo(x, y, z);
     }
+
+    @Override
+    public void wheelSecond(double r, double h, int n) {
+        double a = 360.0 / n;
+        double step = Math.toRadians(a);
+
+        drawing3D.setTo(r * Math.cos(0), r * Math.sin(0), 0);
+        for (double i = 0; i <= 2 * Math.PI + step; i = i + step) {
+            double x = r * Math.cos(i);
+            double y = r * Math.sin(i);
+            drawing3D.lineTo(x, y, 0);
+        }
+
+        for (double i = 0; i <= 2 * Math.PI + step; i = i + step) {
+            drawing3D.setTo(0, 0, 0);
+            double x = r * Math.cos(i);
+            double y = r * Math.sin(i);
+            drawing3D.lineTo(x, y, 0);
+        }
+
+        for (double i = 0; i <= 2 * Math.PI + step; i = i + step) {
+            double x = r * Math.cos(i);
+            double y = r * Math.sin(i);
+            drawing3D.setTo(x, y, h);
+            drawing3D.lineTo(x, y, 0);
+        }
+
+        drawing3D.setTo(r * Math.cos(0), r * Math.sin(0), h);
+        for (double i = 0; i <= 2 * Math.PI + step; i = i + step) {
+            double x = r * Math.cos(i);
+            double y = r * Math.sin(i);
+            drawing3D.lineTo(x, y, h);
+        }
+
+        for (double i = 0; i <= 2 * Math.PI + step; i = i + step) {
+            drawing3D.setTo(0, 0, h);
+            double x = r * Math.cos(i);
+            double y = r * Math.sin(i);
+            drawing3D.lineTo(x, y, h);
+        }
+    }
+
+    @Override
+    public void archimedesSpiral(double n, double w) {
+        double step = 0.001;
+        drawing3D.setTo(0, 0, 0);
+        double r, x, y;
+        double phi = Math.toRadians(0);
+        for (; phi <= n * Math.PI + step; phi += step) {
+            r = w * phi;
+            x = r * Math.cos(phi);
+            y = r * Math.sin(phi);
+            drawing3D.lineTo(x, y, 0);
+        }
+    }
+
+    @Override
+    public void drawTriangle(double a) {
+        drawing3D.setTo(0, 0, 0);
+        drawing3D.lineTo(a, 0, 0);
+        drawing3D.lineTo(a * (Math.cos(Math.PI / 3)), a * (Math.sin(Math.PI / 3)), 0);
+        drawing3D.lineTo(0, 0, 0);
+    }
+
+    @Override
+    public void drawRightTriangle(double a, double b) {
+        double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        
+        drawing3D.setTo(0, 0, 0);
+        drawing3D.lineTo(a, 0, 0);
+        drawing3D.lineTo(a, b, 0);
+        drawing3D.lineTo(0, 0, 0);
+    }
 }
